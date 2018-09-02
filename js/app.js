@@ -21,9 +21,10 @@ function toggleCards (e) {
         e.target.classList.toggle('open');
         e.target.classList.toggle('show');
     };
+
 function toggleCardsMatch (e) {
         e.target.classList.toggle('match');
-}
+    }
 
 //adds cards to openCards array
 function addToggledCards (e) {
