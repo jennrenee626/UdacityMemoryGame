@@ -6,7 +6,6 @@ const deck = document.querySelector('.deck');
 //shuffle deck on page init
 
 let openCards = [];
-
 let matchedCards = [];
 
 //listens for click event on entire deck
@@ -22,6 +21,7 @@ deck.addEventListener('click', function(e) {
         //match - lock card in open/show
                 if (openCards[0].innerHTML === openCards[1].innerHTML ) {
                     cardMatch(e);
+                    addMove(e);
                     //add move and display on score-panel
                 }
         //all matches found?                    
@@ -36,6 +36,7 @@ deck.addEventListener('click', function(e) {
         //no match - remove cards from openCard array, toggle cards to default
                 else {
                     cardNoMatch(e);
+                    addMove(e);
                     //add move and display on score-panel
                 }
         }});
@@ -52,11 +53,11 @@ reset.addEventListener('click', function(e) {
 //     time = reset
 // }
 
-// function moves (e) {
-//     if (openCards ===2) {
-//         //moves ++;
-//         console.log('two clicks=one move');
-//     }};
+function addMove (e) {
+    if (openCards ===2) {
+        //moves ++;
+        console.log('two clicks=one move');
+    }};
 
 
 //checks if card, when clicked toggles open/show classes
