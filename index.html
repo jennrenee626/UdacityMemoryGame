@@ -16,14 +16,16 @@
         </header>
 
         <section class="score-panel">
+            <span class="timer">0:00</span> Timer || 
+
         	<ul class="stars">
         		<li><i class="fa fa-star"></i></li>
         		<li><i class="fa fa-star"></i></li>
         		<li><i class="fa fa-star"></i></li>
         	</ul>
 
-        	<span class="moves">0</span> Moves
-
+            <span class="moves">0</span> Moves 
+                
             <div class="restart">
         		<i class="fa fa-repeat"></i>
         	</div>
@@ -81,6 +83,19 @@
         </ul>
     </div>
 
+    <div class="modal displayToggle">
+        <div class="modalContent">
+            <p>Congratulations Player! You matched all the cards!</p>
+                <p>It took you <span class="totalMoves">0</span> moves and you finished in <span class="totalTime">0:00</span>.<br>Your star rating was <span class="totalScore">0</span>.</p>
+            <p>Would you like to replay?</p>
+            <div class='modalButtons'>
+                <button class ='modalReplayButton'>Replay</button>
+                <button class ='modalCloseButton'>Close</button>
+            </div>
+        </div>
+        
+    </div>
+          
     <script src="js/app.js"></script>
 </body>
 </html>

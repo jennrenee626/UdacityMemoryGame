@@ -3,42 +3,39 @@
  */
 const deck = document.querySelector('.deck');
 const moveCount = document.querySelector('.moves');
-
+let starList = document.querySelector('.stars');
 
 
 //shuffle deck on page init
+
 let moves = 0;
 let openCards = [];
 let matchedCards = [];
+let timerOn = false;
+let time = 0;
+let timerCount;
+
 
 
 //listens for click event on entire deck
 deck.addEventListener('click', function(e) {
-    //start timer
     //display card symbol and add card to openCard array
         if (e.target.classList.contains('card') && openCards.length < 2 && !openCards.includes(e.target)) {
             toggleCards(e);
             addToggledCards(e);
+            startTimer(e);
         }
         // check for match
             if (openCards.length == 2 && e.target.classList.contains('open') && e.target.classList.contains('show')) {
-        //match - lock card in open/show
+        //match check, add move, stars remove
                 if (openCards[0].innerHTML === openCards[1].innerHTML ) {
                     cardMatch(e);
                     addMove(e);
                     moveCountStarRemove(e);
+                    modalWin(e);
+                    stopTimer(e);
                 }
-        //all matches found?                    
-                    // // if (matchedCards.length === 16) {
-                            //modalWin(e);
-                    // //     alert("All Match");
-                    // }
-                    //     //popup modal - display final moves, time, stars                      
-                    // }
-                    //     if (playAgain===true) {
-                    //         resizeTo(e);
-                    // }
-        //no match - remove cards from openCard array, toggle cards to default
+        //no match, add move, and star remove
                 else {
                     cardNoMatch(e);
                     addMove(e);
@@ -51,17 +48,53 @@ const reset = document.querySelector('.restart');
 reset.addEventListener('click', function(e) {
     //resetCards(e);
     resetMoves(e);
-    resetStars(e);
+    //resetStars(e);
     //shuffle(array); 
     //timeReset(e);
     console.log('restart clicked');
 });
 
+//checks if card, when clicked toggles open/show classes
+function toggleCards(e) {
+    //if  (e.target.classList.contains('card') && openCards.length < 2) {
+        e.target.classList.toggle('open');
+        e.target.classList.toggle('show');
+}
+
+//adds cards to openCards array
+function addToggledCards(e) {
+    //if (e.target.classList.contains('card') && openCards.length < 2) {
+        openCards.push(e.target);
+        //openCards.push(e.target.innerHTML);
+}
+
+//check if cards match
+function cardMatch(e) {
+        openCards[0].classList.add('match');
+        openCards[1].classList.add('match');
+        matchedCards.push(openCards[0]);
+        matchedCards.push(openCards[1]); //moves matched cards to new matchedCards array 
+            openCards = []; //empties openCards array - create delay - bug
+        console.log('match');
+}
+
+//if cards don't match, toggle to default
+function cardNoMatch(e) {
+     setTimeout(() => {
+        openCards[0].classList.toggle('open'); //toggles first item in array back to default
+        openCards[0].classList.toggle('show');
+        openCards[1].classList.toggle('open');
+        openCards[1].classList.toggle('show');
+            openCards = [];
+        }, 500); 
+        console.log('not match');
+}
+
 function addMove(e) {
     moves++;
     moveCount.innerText = moves;        
     console.log('two clicks=one move');
-    };
+}
 
 function resetMoves(e) {
     moves = 0;
@@ -78,79 +111,102 @@ function resetMoves(e) {
 //     matchedCards=[];
 // }
 
-let starList = document.querySelector('.stars');   // Get the <ul> element with class ="stars" not working
-
 function moveCountStarRemove (e) {
-    if (moves < 2){
+    if (moves < 15){
         console.log("moves less than 15");
-    } else if (moves === 3) {
+    } else if (moves === 16) {
         removeStar(e);
-    } else if (moves === 5) {
+    } else if (moves === 32) {
         removeStar(e);
-    } else if (moves === 7) {
-        removeStar(e);
-    }};
+}}
 
 function removeStar(e){
     starList.removeChild(starList.children[0]);
-};
+}
 
-function resetStars(e) {
-        let li = document.createElement('li');
-        li.innerHTML = '<i class="fa fa-star"></i>';
-        //for (var s = 0; i <3; i++)
-        starList.appendChild(li);
+//add star/reset stars
+// let li = document.getElementsByTagName('li');
+// let liCount = document.getElementsByTagName("li").length;
 
-};
+// function resetStars(e) { //not working
+//     while (liCount.length <3) {
+//         let addLi = document.createElement('li');
+//         li.innerHTML = '<i class="fa fa-star"></i>';
+//         starList.appendChild(addLi);
+//         }
+//     };
+   
+//timer section
+function timeCount(e) {
+    timerCount = setInterval(() => {
+        time++;
+        timeDisplay(e);
+    }, 1000);
+}
 
-// function timer(e) {
+function startTimer(e) {
+    if (!timerOn) {
+        timerOn = true;
+        timeCount(e);
+}}
 
-// };
+function timeDisplay (e) {
+    const timer = document.querySelector('.timer');
+    const minutes = Math.floor(time/60);
+    const seconds = (time%60);
+    
+    timer.innerHTML = time;
+        if (seconds < 10) {
+            timer.innerHTML = `${minutes}:0${seconds}`;
+        }  else {
+            timer.innerHTML = `${minutes}:${seconds}`;
+        }
+    
+    //document.getElementById(".timer").innerHTML = minutes + ":" + seconds;
+}
+    
+function stopTimer(e) {
+    if (matchedCards.length == 16) {
+        clearInterval(timerCount);
+}}
 
 // function timeReset(e) {
 
 // };
 
-// function modalWin(e) {
 
-// };
+function modalWin(e) {
+    if (matchedCards.length == 16) {
+        toggleModal(e);
+        //display.style.display = "block";
+}}
 
+function toggleModal(e){
+    const modal = document.querySelector('.modal');
+    modal.classList.toggle('displayToggle');
+}
 
+function modalClose(e) { //not working
+    modalCloseButton.onclick = function() {
+    alert('close clicked');
+    //modal.style.display = "none";
+    //or
+    //const modalCloseClick = document.querySelector('.modalCloseButton');
+    //modalCloseClick.addEventListener('click', toggleModal(e));
+}}
 
-//checks if card, when clicked toggles open/show classes
-function toggleCards(e) {
-    //if  (e.target.classList.contains('card') && openCards.length < 2) {
-        e.target.classList.toggle('open');
-        e.target.classList.toggle('show');
-};
+function modalReplay(e) { //not working
+    modalReplayButton.onclick = function() {
+    alert('replay clicked');
+        //modal.style.display = "none";
+    //or
+    //const modalReplay = document.querySelector('modalReplayButton');
+    //modalReplay.addEventListener('click', function (e) {
+        //toggleModal(e);
+        //reset
+        //console.log('replay picked');
+}}
 
-//adds cards to openCards array
-function addToggledCards(e) {
-    //if (e.target.classList.contains('card') && openCards.length < 2) {
-        openCards.push(e.target);
-        //openCards.push(e.target.innerHTML);
-};
-
-//check if cards match
-function cardMatch(e) {
-        openCards[0].classList.add('match');
-        openCards[1].classList.add('match');
-        matchedCards.push(openCards[0]);
-        matchedCards.push(openCards[1]); //moves matched cards to new matchedCards array 
-            openCards = []; //empties openCards array
-        console.log('match');
-};
-
-function cardNoMatch(e) {
-     setTimeout(() => {
-        openCards[0].classList.toggle('open'); //toggles first item in array back to default
-        openCards[0].classList.toggle('show');
-        openCards[1].classList.toggle('open');
-        openCards[1].classList.toggle('show');
-            openCards = [];
-        }, 1000); 
-        console.log('not match');
-};
 
 /*
  * Display the cards on the page
