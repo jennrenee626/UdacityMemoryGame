@@ -1,7 +1,7 @@
-const deck = document.querySelector('.deck');
-const moveCount = document.querySelector('.moves');
+let deck = document.querySelector('.deck');
+let moveCount = document.querySelector('.moves');
 let starList = document.querySelector('.stars');
-const timer = document.querySelector('.timer');
+let timer = document.querySelector('.timer');
 let card = document.querySelectorAll('.card');
 
 let moves = 0;
@@ -15,8 +15,6 @@ let timerCount;
 window.onload = function(e) {
     resetAll(e);
   };
-
-
 
 //listens for click event on entire deck
 deck.addEventListener('click', function(e) {
@@ -59,15 +57,11 @@ function resetAll(e) {
     resetStars(e);
     timerReset(e);
     timerReset(e);
+    shuffleCards(e);
     //shuffle(cards);
 }
 
 //************** cards **************
-
-function createCards(e){
-    deck.innerHTML = 
-}
-
 
 //checks if card, when clicked toggles open/show classes
 function toggleCards(e) {
@@ -102,10 +96,8 @@ function cardNoMatch(e) {
         console.log('not match');
 }
 
-
 //reset cards
 function resetCards(e) {
-    
     for (i = 0; i < card.length; i++) {
         card[i].classList.remove("open");
         card[i].classList.remove("show");
@@ -116,13 +108,17 @@ function resetCards(e) {
     matchedCards=[];
 
 }
-// function shuffleCards {
-//     let card
-//     for 
-//     shuffle(card);
-// }
 
-    
+function shuffleCards(e) {
+    let cards = document.querySelectorAll('.card');
+    cards = shuffle(card);
+    deck.innerHTML = "";
+
+    for (i = 0; i < cards.length; i++) {
+        deck.appendChild(cards[i]);
+    }
+}
+   
 
 //Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(card) {
