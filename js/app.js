@@ -2,6 +2,7 @@ const deck = document.querySelector('.deck');
 const moveCount = document.querySelector('.moves');
 let starList = document.querySelector('.stars');
 const timer = document.querySelector('.timer');
+let card = document.querySelectorAll('.card');
 
 let moves = 0;
 let openCards = [];
@@ -11,8 +12,10 @@ let time = 0;
 let timerCount;
 
 //page init
-resetStars();
-//shuffledeck
+window.onload = function(e) {
+    resetAll(e);
+  };
+
 
 
 //listens for click event on entire deck
@@ -43,18 +46,28 @@ deck.addEventListener('click', function(e) {
 
 //************** reset button  **************
 
-// reset button click in score-panel AND in modal for play again option
+// reset button click
 const reset = document.querySelector('.restart');
-reset.addEventListener('click', function(e) {
+reset.addEventListener('click', function (e) {
+    resetAll(e);
+})
+
+//reset all
+function resetAll(e) {
     resetCards(e);
     resetMoves(e);
     resetStars(e);
-    //shuffle(array); 
     timerReset(e);
-    console.log('restart clicked');
-});
+    timerReset(e);
+    //shuffle(cards);
+}
 
 //************** cards **************
+
+function createCards(e){
+    deck.innerHTML = 
+}
+
 
 //checks if card, when clicked toggles open/show classes
 function toggleCards(e) {
@@ -89,32 +102,40 @@ function cardNoMatch(e) {
         console.log('not match');
 }
 
-//reset cards on reset/replay
 
-
-const card = document.getElementsByClassName('.card');
+//reset cards
 function resetCards(e) {
     
-    card.classList.remove("open");
-    card.classList.remove("show");
-    card.classList.remove("match");
+    for (i = 0; i < card.length; i++) {
+        card[i].classList.remove("open");
+        card[i].classList.remove("show");
+        card[i].classList.remove("match");
+    }
+
     openCards=[];
     matchedCards=[];
-}
 
+}
+// function shuffleCards {
+//     let card
+//     for 
+//     shuffle(card);
+// }
+
+    
 
 //Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+function shuffle(card) {
+    var currentIndex = card.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
+        temporaryValue = card[currentIndex];
+        card[currentIndex] = card[randomIndex];
+        card[randomIndex] = temporaryValue;
     }
-    return array;
+    return card;
 };
 
 //************** moves **************
@@ -206,17 +227,12 @@ function toggleModal(e){
 const modalCloseButton = document.querySelector('.modalCloseButton');
     modalCloseButton.addEventListener('click', function(e) {
         toggleModal(e);
-});
-
+    })
+    
 const modalReplayButton = document.querySelector(".modalReplayButton");
     modalReplayButton.addEventListener('click', function(e) {
-    //alert('replay clicked');
-    //resetCards(e);
-    resetMoves(e);
-    resetStars(e);
-    //shuffle(array); 
-    timerReset(e);
-});
+        resetAll(e);
+    })
 
 function modalStats(e) {
     //moves
