@@ -1,6 +1,3 @@
-/*
- * Create a list that holds all of your cards
- */
 const deck = document.querySelector('.deck');
 const moveCount = document.querySelector('.moves');
 let starList = document.querySelector('.stars');
@@ -14,8 +11,6 @@ let matchedCards = [];
 let timerOn = false;
 let time = 0;
 let timerCount;
-
-
 
 //listens for click event on entire deck
 deck.addEventListener('click', function(e) {
@@ -43,6 +38,9 @@ deck.addEventListener('click', function(e) {
                 }
         }});
 
+
+//************** reset button  **************
+
 // reset button click in score-panel AND in modal for play again option
 const reset = document.querySelector('.restart');
 reset.addEventListener('click', function(e) {
@@ -50,9 +48,11 @@ reset.addEventListener('click', function(e) {
     resetMoves(e);
     //resetStars(e);
     //shuffle(array); 
-    //timeReset(e);
+    timerReset(e);
     console.log('restart clicked');
 });
+
+//************** cards **************
 
 //checks if card, when clicked toggles open/show classes
 function toggleCards(e) {
@@ -90,19 +90,7 @@ function cardNoMatch(e) {
         console.log('not match');
 }
 
-function addMove(e) {
-    moves++;
-    moveCount.innerText = moves;        
-    console.log('two clicks=one move');
-}
-
-function resetMoves(e) {
-    moves = 0;
-    moveCount.innerText = moves;
-    //if moves == 1 - change html text to say move vs moves 
-    console.log('reset move count');
-}
-
+//reset cards on reset/replay
 // const cardIsMatched = document.querySelectorAll('.card'); // not working
 // function resetCards(e) {
 //     //card.classList.remove('match');
@@ -110,6 +98,37 @@ function resetMoves(e) {
 //     openCards=[];
 //     matchedCards=[];
 // }
+
+
+//Shuffle function from http://stackoverflow.com/a/2450976
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+    return array;
+};
+
+//************** moves **************
+
+function addMove(e) {
+    moves++;
+    moveCount.innerText = moves;      
+    console.log('two clicks=one move');
+}
+
+function resetMoves(e) {
+    moves = 0;
+    moveCount.innerText = moves; 
+    console.log('reset move count');
+}
+
+//************** stars **************
 
 function moveCountStarRemove (e) {
     if (moves < 15){
@@ -136,7 +155,8 @@ function removeStar(e){
 //         }
 //     };
    
-//timer section
+//************** timer **************
+
 function timeCount(e) {
     timerCount = setInterval(() => {
         time++;
@@ -170,14 +190,23 @@ function stopTimer(e) {
         clearInterval(timerCount);
 }}
 
-// function timeReset(e) {
+function timerReset(e) { //not working - doesn't display 0:00 on reset, but restarts time on deck click
+    clearInterval(timerCount); 
+    timerOn = false;
+    time = 0;
+   
+    deck.addEventListener('click', function(e) {
+    startTimer(e);
+    }
+    )};
 
-// };
-
+//************** modal **************
 
 function modalWin(e) {
     if (matchedCards.length == 16) {
         toggleModal(e);
+        modalStats(e);
+        
         //display.style.display = "block";
 }}
 
@@ -207,37 +236,38 @@ function modalReplay(e) { //not working
         //console.log('replay picked');
 }}
 
+// <p>It took you <span class="totalMoves">0</span> moves and you finished in <span class="totalTime">0:00</span>.<br>Your star rating was <span class="totalRating">0</span>.</p>
+// <p>Would you like to replay?</p>
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+function modalStats(e) {
+    //moves
+    const totalMoves = document.querySelector('.totalMoves');
+    totalMoves.innerHTML = moves;
+    
+    //time
+    const totalTime = document.querySelector('.totalTime');
+    const panelTime = document.querySelector('.timer').innerHTML;
+    totalTime.innerHTML = panelTime;
 
-//Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    // //stars
+    // const totalRating = document.querySelector('.totalRating');
+    // totalRating.innerHTML = ;
+}
 
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
+//************** project instructions **************
 
-    return array;
-};
+//  Create a list that holds all of your cards
 
+//  Display the cards on the page
+//  - shuffle the list of cards using the provided "shuffle" method below
+//  - loop through each card and create its HTML
+//  - add each card's HTML to the page
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+//  set up the event listener for a card. If a card is clicked:
+//  - display the card's symbol (put this functionality in another function that you call from this one)
+//  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+//  - if the list already has another card, check to see if the two cards match
+//  + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+//  + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
+//  + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+//  + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
