@@ -46,7 +46,7 @@ deck.addEventListener('click', function(e) {
 // reset button click in score-panel AND in modal for play again option
 const reset = document.querySelector('.restart');
 reset.addEventListener('click', function(e) {
-    //resetCards(e);
+    resetCards(e);
     resetMoves(e);
     resetStars(e);
     //shuffle(array); 
@@ -90,13 +90,17 @@ function cardNoMatch(e) {
 }
 
 //reset cards on reset/replay
-// const cardIsMatched = document.querySelectorAll('.card'); // not working
-// function resetCards(e) {
-//     //card.classList.remove('match');
-//     cardIsMatched.style.cssText = '.deck';
-//     openCards=[];
-//     matchedCards=[];
-// }
+
+
+const card = document.getElementsByClassName('.card');
+function resetCards(e) {
+    
+    card.classList.remove("open");
+    card.classList.remove("show");
+    card.classList.remove("match");
+    openCards=[];
+    matchedCards=[];
+}
 
 
 //Shuffle function from http://stackoverflow.com/a/2450976
@@ -139,11 +143,11 @@ function moveCountStarRemove (e) {
 }}
 
 function resetStars(e) {
-    starList.innerHTML = `<li><i class="fa fa-star"></i></li>
+    starList.innerHTML = `<li><i class="fa fa-star"></i></li> 
                           <li><i class="fa fa-star"></i></li>
                           <li><i class="fa fa-star"></i></li>`;
 }
-   
+
 //************** timer **************
 
 function timeCount(e) {
@@ -206,7 +210,12 @@ const modalCloseButton = document.querySelector('.modalCloseButton');
 
 const modalReplayButton = document.querySelector(".modalReplayButton");
     modalReplayButton.addEventListener('click', function(e) {
-    alert('replay clicked');
+    //alert('replay clicked');
+    //resetCards(e);
+    resetMoves(e);
+    resetStars(e);
+    //shuffle(array); 
+    timerReset(e);
 });
 
 function modalStats(e) {
@@ -219,9 +228,10 @@ function modalStats(e) {
     const panelTime = document.querySelector('.timer').innerHTML;
     totalTime.innerHTML = panelTime;
 
-    // //stars
-    // const totalRating = document.querySelector('.totalRating');
-    // totalRating.innerHTML = ;
+    //stars
+    const totalRating = document.querySelector('.stars').innerHTML;
+    const starsRating = document.querySelector('.totalRating');
+    starsRating.innerHTML = totalRating;
 }
 
 //************** project instructions **************
