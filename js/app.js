@@ -1,9 +1,7 @@
 const deck = document.querySelector('.deck');
 const moveCount = document.querySelector('.moves');
 let starList = document.querySelector('.stars');
-
-
-//shuffle deck on page init
+const timer = document.querySelector('.timer');
 
 let moves = 0;
 let openCards = [];
@@ -11,6 +9,11 @@ let matchedCards = [];
 let timerOn = false;
 let time = 0;
 let timerCount;
+
+//page init
+resetStars();
+//shuffledeck
+
 
 //listens for click event on entire deck
 deck.addEventListener('click', function(e) {
@@ -38,7 +41,6 @@ deck.addEventListener('click', function(e) {
                 }
         }});
 
-
 //************** reset button  **************
 
 // reset button click in score-panel AND in modal for play again option
@@ -46,7 +48,7 @@ const reset = document.querySelector('.restart');
 reset.addEventListener('click', function(e) {
     //resetCards(e);
     resetMoves(e);
-    //resetStars(e);
+    resetStars(e);
     //shuffle(array); 
     timerReset(e);
     console.log('restart clicked');
@@ -56,16 +58,13 @@ reset.addEventListener('click', function(e) {
 
 //checks if card, when clicked toggles open/show classes
 function toggleCards(e) {
-    //if  (e.target.classList.contains('card') && openCards.length < 2) {
         e.target.classList.toggle('open');
         e.target.classList.toggle('show');
 }
 
 //adds cards to openCards array
 function addToggledCards(e) {
-    //if (e.target.classList.contains('card') && openCards.length < 2) {
         openCards.push(e.target);
-        //openCards.push(e.target.innerHTML);
 }
 
 //check if cards match
@@ -134,26 +133,16 @@ function moveCountStarRemove (e) {
     if (moves < 15){
         console.log("moves less than 15");
     } else if (moves === 16) {
-        removeStar(e);
+        starList.removeChild(starList.children[0]);
     } else if (moves === 32) {
-        removeStar(e);
+        starList.removeChild(starList.children[0]);
 }}
 
-function removeStar(e){
-    starList.removeChild(starList.children[0]);
+function resetStars(e) {
+    starList.innerHTML = `<li><i class="fa fa-star"></i></li>
+                          <li><i class="fa fa-star"></i></li>
+                          <li><i class="fa fa-star"></i></li>`;
 }
-
-//add star/reset stars
-// let li = document.getElementsByTagName('li');
-// let liCount = document.getElementsByTagName("li").length;
-
-// function resetStars(e) { //not working
-//     while (liCount.length <3) {
-//         let addLi = document.createElement('li');
-//         li.innerHTML = '<i class="fa fa-star"></i>';
-//         starList.appendChild(addLi);
-//         }
-//     };
    
 //************** timer **************
 
@@ -171,18 +160,14 @@ function startTimer(e) {
 }}
 
 function timeDisplay (e) {
-    const timer = document.querySelector('.timer');
     const minutes = Math.floor(time/60);
     const seconds = (time%60);
     
-    timer.innerHTML = time;
         if (seconds < 10) {
             timer.innerHTML = `${minutes}:0${seconds}`;
         }  else {
             timer.innerHTML = `${minutes}:${seconds}`;
-        }
-    
-    //document.getElementById(".timer").innerHTML = minutes + ":" + seconds;
+        } //source - Matthew Cranford for minutes/seconds display
 }
     
 function stopTimer(e) {
@@ -190,15 +175,16 @@ function stopTimer(e) {
         clearInterval(timerCount);
 }}
 
-function timerReset(e) { //not working - doesn't display 0:00 on reset, but restarts time on deck click
+function timerReset(e) {
     clearInterval(timerCount); 
     timerOn = false;
     time = 0;
-   
+    timer.innerHTML = `00:00`;
+
     deck.addEventListener('click', function(e) {
     startTimer(e);
     }
-    )};
+)}
 
 //************** modal **************
 
@@ -206,8 +192,6 @@ function modalWin(e) {
     if (matchedCards.length == 16) {
         toggleModal(e);
         modalStats(e);
-        
-        //display.style.display = "block";
 }}
 
 function toggleModal(e){
@@ -215,29 +199,15 @@ function toggleModal(e){
     modal.classList.toggle('displayToggle');
 }
 
-function modalClose(e) { //not working
-    modalCloseButton.onclick = function() {
-    alert('close clicked');
-    //modal.style.display = "none";
-    //or
-    //const modalCloseClick = document.querySelector('.modalCloseButton');
-    //modalCloseClick.addEventListener('click', toggleModal(e));
-}}
+const modalCloseButton = document.querySelector('.modalCloseButton');
+    modalCloseButton.addEventListener('click', function(e) {
+        toggleModal(e);
+});
 
-function modalReplay(e) { //not working
-    modalReplayButton.onclick = function() {
+const modalReplayButton = document.querySelector(".modalReplayButton");
+    modalReplayButton.addEventListener('click', function(e) {
     alert('replay clicked');
-        //modal.style.display = "none";
-    //or
-    //const modalReplay = document.querySelector('modalReplayButton');
-    //modalReplay.addEventListener('click', function (e) {
-        //toggleModal(e);
-        //reset
-        //console.log('replay picked');
-}}
-
-// <p>It took you <span class="totalMoves">0</span> moves and you finished in <span class="totalTime">0:00</span>.<br>Your star rating was <span class="totalRating">0</span>.</p>
-// <p>Would you like to replay?</p>
+});
 
 function modalStats(e) {
     //moves
