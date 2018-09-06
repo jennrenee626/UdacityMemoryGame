@@ -109,7 +109,7 @@ function shuffleCards(e) {
 
     for (let eachCard of shuffledCards) {
         deck.appendChild(eachCard);
-    }
+    }//source - Matthew Cranford walkthrough - array/for of
 }
    
 //Shuffle function from http://stackoverflow.com/a/2450976
@@ -174,11 +174,11 @@ function timeDisplay (e) {
     const minutes = Math.floor(time/60);
     const seconds = (time%60);
     
-    if (seconds < 10) {
-        timer.innerHTML = `${minutes}:0${seconds}`;
-    }  else {
-        timer.innerHTML = `${minutes}:${seconds}`;
-    }
+        if (seconds < 10) {
+            timer.innerHTML = `${minutes}:0${seconds}`;
+        }  else {
+            timer.innerHTML = `${minutes}:${seconds}`;
+        } //source - Matthew Cranford walkthrough - if statement
 }
     
 function stopTimer(e) {
