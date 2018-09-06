@@ -2,7 +2,6 @@ let deck = document.querySelector('.deck');
 let moveCount = document.querySelector('.moves');
 let starList = document.querySelector('.stars');
 let timer = document.querySelector('.timer');
-let card = document.querySelectorAll('.card');
 
 let moves = 0;
 let openCards = [];
@@ -11,10 +10,6 @@ let timerOn = false;
 let time = 0;
 let timerCount;
 
-//page init
-window.onload = function(e) {
-    resetAll(e);
-  };
 
 //listens for click event on entire deck
 deck.addEventListener('click', function(e) {
@@ -58,7 +53,6 @@ function resetAll(e) {
     timerReset(e);
     timerReset(e);
     shuffleCards(e);
-    //shuffle(cards);
 }
 
 //************** cards **************
@@ -98,6 +92,7 @@ function cardNoMatch(e) {
 
 //reset cards
 function resetCards(e) {
+    let card = document.querySelectorAll('.card');
     for (i = 0; i < card.length; i++) {
         card[i].classList.remove("open");
         card[i].classList.remove("show");
@@ -109,29 +104,29 @@ function resetCards(e) {
 
 }
 
+//create array of cards, pass arrayCards to shuffle(array) function, for loop through each object(card) in array, append in list in new order
 function shuffleCards(e) {
-    let cards = document.querySelectorAll('.card');
-    cards = shuffle(card);
-    deck.innerHTML = "";
+    
+    const arrayCards = Array.from(document.querySelectorAll('.deck li'));
+    const shuffledCards = shuffle(arrayCards);
 
-    for (i = 0; i < cards.length; i++) {
-        deck.appendChild(cards[i]);
+    for (let eachCard of shuffledCards) {
+        deck.appendChild(eachCard);
     }
 }
    
-
 //Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(card) {
-    var currentIndex = card.length, temporaryValue, randomIndex;
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
-        temporaryValue = card[currentIndex];
-        card[currentIndex] = card[randomIndex];
-        card[randomIndex] = temporaryValue;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
     }
-    return card;
+    return array;
 };
 
 //************** moves **************
@@ -227,6 +222,7 @@ const modalCloseButton = document.querySelector('.modalCloseButton');
     
 const modalReplayButton = document.querySelector(".modalReplayButton");
     modalReplayButton.addEventListener('click', function(e) {
+        toggleModal(e);
         resetAll(e);
     })
 
