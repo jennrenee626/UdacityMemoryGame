@@ -4,6 +4,7 @@
 
 * [Rules](#rules)
 * [Score](#score)
+* [Dependencies](#dependencies)
 * [Notes](#notes)
 
 ## Rules
@@ -13,9 +14,15 @@ The objective is to match all of the cards. The deck contains eight pairs of mat
 ## Score
 Every two cards flipped is one move. After 16 moves one star will be removed from the score panel; leaving a two star rating. After 32 moves another star will be removed from the score panel; leaving a one star rating. 
 
+## Dependencies
+
+The game dependencies include Font Awesome and Google Fonts, as referenced in the HTML.
+Font Awesome - https://fontawesome.com/
+Google Fonts - https://fonts.google.com/
+
 ## Notes
 
-The game has no external dependencies. The game does not need to be installed or downloaded. It can be played directly in the browser (running index.html). 
+The game does not need to be installed or downloaded. It can be played directly in the browser (running index.html). The game and code can also be cloned via github.
 
 # UdacityMemoryGame
 # memorygame
