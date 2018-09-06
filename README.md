@@ -3,7 +3,7 @@
 ## Table of Contents
 
 * [Rules](#rules)
-* [Moves and Score](#moves and score)
+* [Score](#score)
 * [Notes](#notes)
 
 ## Rules
