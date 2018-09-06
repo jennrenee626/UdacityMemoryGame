@@ -74,8 +74,7 @@ function cardMatch(e) {
         openCards[1].classList.add('match');
         matchedCards.push(openCards[0]);
         matchedCards.push(openCards[1]); //moves matched cards to new matchedCards array 
-            openCards = []; //empties openCards array - create delay - bug
-        console.log('match');
+            openCards = []; //empties openCards array
 }
 
 //if cards don't match, toggle to default
@@ -86,8 +85,7 @@ function cardNoMatch(e) {
         openCards[1].classList.toggle('open');
         openCards[1].classList.toggle('show');
             openCards = [];
-        }, 500); 
-        console.log('not match');
+        }, 500);
 }
 
 //reset cards
@@ -106,7 +104,6 @@ function resetCards(e) {
 
 //create array of cards, pass arrayCards to shuffle(array) function, for loop through each object(card) in array, append in list in new order
 function shuffleCards(e) {
-    
     const arrayCards = Array.from(document.querySelectorAll('.deck li'));
     const shuffledCards = shuffle(arrayCards);
 
@@ -133,21 +130,19 @@ function shuffle(array) {
 
 function addMove(e) {
     moves++;
-    moveCount.innerText = moves;      
-    console.log('two clicks=one move');
+    moveCount.innerText = moves;
 }
 
 function resetMoves(e) {
     moves = 0;
-    moveCount.innerText = moves; 
-    console.log('reset move count');
+    moveCount.innerText = moves;
 }
 
 //************** stars **************
 
 function moveCountStarRemove (e) {
     if (moves < 15){
-        console.log("moves less than 15");
+        console.log("less than 16 moves");
     } else if (moves === 16) {
         starList.removeChild(starList.children[0]);
     } else if (moves === 32) {
@@ -179,11 +174,11 @@ function timeDisplay (e) {
     const minutes = Math.floor(time/60);
     const seconds = (time%60);
     
-        if (seconds < 10) {
-            timer.innerHTML = `${minutes}:0${seconds}`;
-        }  else {
-            timer.innerHTML = `${minutes}:${seconds}`;
-        } //source - Matthew Cranford for minutes/seconds display
+    if (seconds < 10) {
+        timer.innerHTML = `${minutes}:0${seconds}`;
+    }  else {
+        timer.innerHTML = `${minutes}:${seconds}`;
+    }
 }
     
 function stopTimer(e) {
